@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Noto Sans SC", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --background: #f4f8ef;
+  --surface: #fbfcf8;
+  --surface-strong: #f0f4e8;
+  --surface-muted: #eef4e6;
+  --sky: #dcefff;
+  --grass: #8ccf6a;
+  --grass-deep: #5ea24d;
+  --dirt: #b98a62;
+  --stone: #d7d4c8;
+  --water: #86d8ff;
+  --ink: #2f3b2f;
+  --ink-soft: #60715d;
+  --accent: #f2c14e;
+  --wood: #c99763;
+  --wood-deep: #8f623f;
+  --leaf: #72b45f;
+  --border: #dde6d4;
+  --shadow-sm: 0 10px 30px rgba(65, 91, 62, 0.06);
+  --shadow-md: 0 18px 45px rgba(65, 91, 62, 0.09);
+  --shadow-lg: 0 22px 60px rgba(65, 91, 62, 0.14);
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --max-width: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(to right, rgba(47, 59, 47, 0.018) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(47, 59, 47, 0.018) 1px, transparent 1px),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.7), transparent 30%),
+    linear-gradient(180deg, #f9fcf4 0%, var(--background) 100%);
+  background-size:
+    28px 28px,
+    28px 28px,
+    auto,
+    auto;
+  color: var(--ink);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(242, 193, 78, 0.32);
+  color: var(--ink);
+}
+
+.page-shell {
+  position: relative;
+  overflow-x: clip;
+}
+
+.page-shell::before,
+.page-shell::after {
+  content: "";
+  position: fixed;
+  inset: auto;
+  width: 28rem;
+  height: 28rem;
+  border-radius: 999px;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.55;
+}
+
+.page-shell::before {
+  top: -9rem;
+  right: -8rem;
+  background: rgba(134, 216, 255, 0.35);
+}
+
+.page-shell::after {
+  bottom: -10rem;
+  left: -8rem;
+  background: rgba(140, 207, 106, 0.2);
+}
+
+.section-card {
+  background: color-mix(in srgb, white 88%, var(--surface-muted) 12%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.craft-panel {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, white 89%, var(--surface-muted) 11%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.craft-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0.38), transparent 22%, transparent 78%, rgba(94, 162, 77, 0.07)),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.22), transparent 22%);
+  pointer-events: none;
+}
+
+.terrain-cap {
+  position: relative;
+}
+
+.terrain-cap::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 14px;
+  background:
+    linear-gradient(180deg, #9fda79 0%, var(--grass) 58%, var(--grass-deep) 100%);
+}
+
+.terrain-cap::after {
+  content: "";
+  position: absolute;
+  inset: 14px auto auto 0;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(180deg, #c99763 0%, var(--dirt) 100%);
+  opacity: 0.9;
+}
+
+.inventory-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(240, 244, 232, 0.9));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 14px 26px rgba(53, 84, 52, 0.08);
+}
+
+.block-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(221, 230, 212, 0.95);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.62rem 0.9rem;
+  box-shadow: 0 12px 24px rgba(65, 91, 62, 0.06);
+}
+
+.wood-board {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(143, 98, 63, 0.26);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(
+      180deg,
+      rgba(201, 151, 99, 0.96) 0 18px,
+      rgba(188, 139, 91, 0.96) 18px 36px
+    );
+  box-shadow: 0 24px 50px rgba(110, 79, 52, 0.12);
+}
+
+.logo-toned {
+  filter: sepia(0.14) hue-rotate(22deg) saturate(1.08) brightness(1.01);
+}
+
+.grid-noise {
+  background-image:
+    linear-gradient(to right, rgba(47, 59, 47, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(47, 59, 47, 0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.pixel-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.55rem 0.9rem;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 16px 35px rgba(53, 84, 52, 0.08);
+}
+
+.soft-border {
+  position: relative;
+}
+
+.soft-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(221, 230, 212, 0.9));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Keep custom scrollbar from old design */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--grass-deep);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
