@@ -10,19 +10,21 @@ const getWsUrl = (path: string) => {
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
   const host = window.location.host;
   
+  // In production (behind Nginx), we always want to use the current host and the proxied path
   if (isProd) {
     return `${protocol}//${host}${path}`;
   }
 
-  // Fallback for development
+  // Fallback for development (standardizing localhost behavior)
   const base = API_BASE_URL.replace('http:', 'ws:').replace('https:', 'wss:');
-  if (path === '/ws/') return base.replace(':8081', ':8080');
-  if (path === '/arena-ws/') return base.replace(':8081', ':8082');
-  return base;
+  // In dev, the backend is on 8081, but streamers are on 8080/8082
+  if (path === '/ws') return base.replace(':8081', ':8080') + '/ws';
+  if (path === '/arena-ws') return base.replace(':8081', ':8082') + '/arena-ws';
+  return `${base}${path}`;
 };
 
-const TELEMETRY_WS_URL = getWsUrl('/ws/');
-const ARENA_WS_URL = getWsUrl('/arena-ws/');
+const TELEMETRY_WS_URL = getWsUrl('/ws');
+const ARENA_WS_URL = getWsUrl('/arena-ws');
 
 console.log('[Jiè Niàn] API Base:', API_BASE_URL || '(relative)');
 console.log('[Jiè Niàn] Telemetry WS:', TELEMETRY_WS_URL);
@@ -137,16 +139,25 @@ export const api = {
 
   async followAgent(name: string): Promise<boolean> {
     try {
+      const adminToken = localStorage.getItem('jn_admin_token');
+      if (!adminToken) {
+        console.warn('[Follow] Admin token not found in localStorage (jn_admin_token)');
+        return false;
+      }
       const res = await fetch(`${API_BASE_URL}/api/v1/admin/camera/follow`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' // Remove hardcoded secret
+          'Authorization': `Bearer ${adminToken}`
         },
         body: JSON.stringify({ name })
       });
+      if (!res.ok) {
+        console.warn(`[Follow] Camera follow request failed: ${res.status}`);
+      }
       return res.ok;
-    } catch {
+    } catch (err) {
+      console.warn('[Follow] Camera follow request error:', err);
       return false;
     }
   },
